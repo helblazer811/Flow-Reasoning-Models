@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "frm"
+version = "0.2.0"
+description = "Flow Reasoning Models on Zebra, Maze, and Sudoku"
+readme = "README.md"
+requires-python = ">=3.10"
+dynamic = ["dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools.packages.find]
+include = ["frm*"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "ruff>=0.4"]
+logging = ["wandb"]
+
+[tool.setuptools]
+py-modules = [ "evaluate_adaptive", "calibrate"]
+
+[project.scripts]
+frm-train = "frm.train:main"
+frm-calibrate = "calibrate:main"
+frm-evaluate = "frm.evaluate:main"

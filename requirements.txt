@@ -1,0 +1,9 @@
+torch>=2.8,<2.9
+numpy
+scipy
+einops
+transformers
+huggingface-hub
+tqdm
+pyyaml
+gdown

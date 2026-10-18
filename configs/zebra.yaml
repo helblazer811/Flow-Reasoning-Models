@@ -1,0 +1,51 @@
+# Source: public / zebra_train / zebra_25m_stage{A,B}.
+data:
+  dataset: zebra
+  sizes: [5x5]
+  repack: true
+  pin_answer: false
+model:
+  hidden_size: 384
+  cond_dim: 128
+  n_blocks: 12
+  n_heads: 12
+  dropout: 0.1
+  self_cond: true
+train:
+  lr: 3.0e-4
+  weight_decay: 0.3
+  ema_decay: 0.9999
+  local_batch_size: 128
+  warmup_steps: 0
+  log_every: 100
+  save_every: 5000
+  val_every: 5000
+  save_best_metric: val/solved
+pipeline:
+  seed: 0
+  num_workers: 2
+  stage_a_steps: 200000
+  stage_b_steps: 200000
+  stage_b_weight_decay: 0.0
+  warm_start: best
+loss:
+  self_cond_prob: 0.5
+  self_forcing_rollout: 0.5
+  sfr_t_min: 0.0
+  sfr_fixed_depth: 16
+  sfr_deep_sup_n: 4
+validation:
+  num_samples: 256
+  subset_seed: 0
+  batch_size: 256
+  sampler: euler
+  steps: 128
+  self_cond: true
+evaluation:
+  num_samples: 1024
+  subset_seed: 0
+  batch_size: 64
+  sampler: sde
+  noise_scale: 0.2
+  steps: 256
+  self_cond: true

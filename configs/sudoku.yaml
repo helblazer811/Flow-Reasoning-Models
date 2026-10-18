@@ -1,0 +1,63 @@
+# Evaluated fixed-time FPF variant (275K steps total), not the original full-schedule FPF curriculum:
+#   Stage A: 100K steps of self-conditioning over the full flow schedule.
+#   Stage B: 175K steps of held-t fixed-point forcing at t=0.4 (every row, re-noised
+#            rollouts, no Euler integration), warm-started from the final Stage A weights.
+# Source: public / sudoku_extreme_train / sudoku_7m_stageA + sudoku_7m_stageB_fixedt.
+data:
+  dataset: sudoku
+  train_max_samples: 1000
+  balanced_by_rating: true
+  symmetry_probability: 0.5
+model:
+  hidden_size: 256
+  cond_dim: 128
+  n_blocks: 7
+  n_heads: 8
+  dropout: 0.1
+  self_cond: true
+train:
+  lr: 3.0e-4
+  weight_decay: 0.0
+  ema_decay: 0.9999
+  local_batch_size: 128
+  warmup_steps: 0
+  log_every: 100
+  save_every: 5000
+  val_every: 5000
+  save_best_metric: val/solved
+pipeline:
+  seed: 0
+  num_workers: 4
+  stage_a_steps: 100000
+  stage_b_steps: 175000
+  warm_start: final
+  stage_b_lr: 1.0e-4
+  stage_b_warmup_steps: 1000
+loss:
+  # Stage A uses only self_cond_prob; the rollout terms apply to Stage B.
+  self_cond_prob: 0.5
+  self_forcing_rollout: 1.0
+  sfr_t_min: 0.0
+  sfr_fixed_depth: 16
+  sfr_deep_sup_n: 4
+  sfr_noise_scale: 1.0
+  fixed_level: 0.4
+validation:
+  num_samples: 256
+  subset_seed: 0
+  batch_size: 256
+  sampler: held_t
+  held_level: 0.4
+  held_iters: 63
+  renoise: 1.0
+  self_cond: true
+evaluation:
+  # One fixed-depth trajectory (4,096 NFE); evaluate_adaptive.py adds calibrated stopping/restarts.
+  num_samples: 1024
+  subset_seed: 0
+  batch_size: 256
+  sampler: held_t
+  held_level: 0.4
+  held_iters: 4095
+  renoise: 1.0
+  self_cond: true

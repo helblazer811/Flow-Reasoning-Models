@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="165" viewBox="0 0 1200 165" role="img" aria-labelledby="title desc">
+  <title id="title">Flow Reasoning Models</title>
+  <desc id="desc">Turning Flows Into Efficient Recurrent Reasoners</desc>
+  <style>
+    text { fill: #1f2328; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+    @media (prefers-color-scheme: dark) { text { fill: #f0f6fc; } }
+  </style>
+  <text x="600" y="67" text-anchor="middle" font-size="62" font-weight="700">Flow Reasoning Models</text>
+  <text x="600" y="132" text-anchor="middle" font-size="44" font-style="italic">Turning Flows Into Efficient Recurrent Reasoners</text>
+</svg>
